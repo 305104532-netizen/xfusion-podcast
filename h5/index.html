@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#e8edf6">
+  <title>超聚变播客</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+      --midnight: #f5f6fa;
+      --surface: #ffffff;
+      --electric: #6b7fd8;
+      --neon: #c85dba;
+      --core: #4a5a8a;
+      --pulse: #2d2b55;
+      --accent: #6b7fd8;
+      --signal: #4ecdc4;
+      --text-primary: #1e1e3a;
+      --text-dim: #5a5a7e;
+      --text-muted: #9e9eb8;
+      --border-light: rgba(255,255,255,0.6);
+      --glass-bg: rgba(255, 255, 255, 0.55);
+      --glass-border: rgba(255, 255, 255, 0.7);
+      --glass-shadow: 0 8px 32px rgba(107, 127, 216, 0.08);
+      --gradient-main: linear-gradient(135deg, #4ecdc4, #6b9fd8, #9b7fd8, #c87fba);
+      --gradient-bg: linear-gradient(170deg, #eef2fa 0%, #f0eafa 30%, #eef5f8 60%, #f6f0fa 100%);
+      --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, input, textarea, select {
+      font-family: inherit;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+      background: #fafbfc;
+      color: var(--text-primary);
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* Banner Carousel */
+    .banner-carousel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .banner-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .banner-slide {
+      min-width: 100%;
+      aspect-ratio: 16 / 8;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner-slide-bg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .banner-slide:nth-child(1) .banner-slide-bg {
+      background: linear-gradient(135deg, #eef2fa 0%, #dce6f8 30%, #c8d6f0 60%, #d8cef0 100%);
+    }
+    .banner-slide:nth-child(2) .banner-slide-bg {
+      background: linear-gradient(135deg, #f2eefa 0%, #e4d8f4 30%, #d6c8ee 60%, #e0d0f4 100%);
+    }
+    .banner-slide:nth-child(3) .banner-slide-bg {
+      background: linear-gradient(135deg, #eef8f5 0%, #d8f0ea 30%, #c8e8e2 60%, #d4eee8 100%);
+    }
+
+    .banner-slide-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px 24px;
+    }
+
+    .banner-slide-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .banner-slide-title {
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      max-width: 70%;
+      color: var(--text-primary);
+    }
+
+    .banner-slide-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      max-width: 65%;
+      line-height: 1.5;
+    }
+
+    .banner-slide-deco {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 90px;
+      height: 90px;
+      opacity: 0.25;
+    }
+
+    .banner-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .banner-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .banner-dot.active {
+      width: 20px;
+      background: var(--electric);
+    }
+
+    /* App Container - mobile frame */
+    .app-shell {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fafbfc;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+      overflow-x: hidden;
+      box-shadow: 0 0 60px rgba(107, 127, 216, 0.08);
+    }
+
+    /* 装饰性彩色背景色块 - 类似官网风格 */
+    .app-shell::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse 90% 55% at 15% 8%, rgba(78, 205, 196, 0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 45% at 85% 18%, rgba(155, 127, 216, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 50% at 50% 35%, rgba(107, 159, 216, 0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 5% 55%, rgba(200, 127, 186, 0.14) 0%, transparent 50%),
+        radial-gradient(ellipse 75% 45% at 90% 55%, rgba(78, 205, 196, 0.16) 0%, transparent 50%),
+        radial-gradient(ellipse 65% 35% at 40% 75%, rgba(155, 127, 216, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 90% 45% at 60% 92%, rgba(107, 159, 216, 0.14) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header */
+    header {
+      position: relative;
+      z-index: 100;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(60px) saturate(250%);
+      -webkit-backdrop-filter: blur(60px) saturate(250%);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 8px 32px rgba(107, 127, 216, 0.1);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      position: relative;
+    }
+
+    .logo-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .logo-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .logo-text span {
+      background: linear-gradient(135deg, #4ecdc4, #6b9fd8, #9b7fd8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Floating Subscribe Button - Right Side */
+    .subscribe-fab {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      padding: 16px 10px;
+      background: linear-gradient(135deg, #4ecdc4, #6b9fd8, #9b7fd8);
+      border: none;
+      border-radius: 10px 0 0 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: -3px 0 16px rgba(78, 205, 196, 0.35), -2px 0 8px rgba(0,0,0,0.12);
+      letter-spacing: 3px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+
+    @media (min-width: 481px) {
+      .subscribe-fab {
+        right: calc(50% - 240px);
+      }
+    }
+
+    .subscribe-fab:hover {
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: -4px 0 20px rgba(78, 205, 196, 0.45), -3px 0 10px rgba(0,0,0,0.18);
+    }
+
+    @media (max-width: 480px) {
+      .subscribe-fab {
+        right: 0;
+        margin-right: 0;
+      }
+    }
+
+    /* Main Content */
+    main {
+      position: relative;
+      z-index: 1;
+      padding: 16px 16px 40px;
+    }
+
+    /* Three-Level Filter Section */
+    .filter-section {
+      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 16px;
+      backdrop-filter: blur(60px) saturate(250%);
+      -webkit-backdrop-filter: blur(60px) saturate(250%);
+      box-shadow: 0 12px 40px rgba(107, 127, 216, 0.1), 
+                  0 4px 12px rgba(155, 127, 216, 0.08),
+                  inset 0 1px 0 rgba(255,255,255,0.9),
+                  inset 0 -1px 0 rgba(255,255,255,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .filter-section::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(155, 127, 216, 0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .filter-section::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(78, 205, 196, 0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .filter-level {
+      margin-bottom: 16px;
+    }
+
+    .filter-level:last-child {
+      margin-bottom: 0;
+    }
+
+    .filter-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a1f36;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-label::before {
+      content: '';
+      width: 3px;
+      height: 12px;
+      background: linear-gradient(180deg, #6b9fd8, #9b7fd8);
+      border-radius: 2px;
+    }
+
+    .filter-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-chip {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid rgba(107, 127, 216, 0.15);
+      background: rgba(255, 255, 255, 0.65);
+      color: #1a1f36;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .filter-chip:hover {
+      border-color: rgba(107, 127, 216, 0.35);
+      color: #6b7fd8;
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .filter-chip.active {
+      background: linear-gradient(135deg, #4ecdc4, #6b9fd8, #9b7fd8);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 4px 16px rgba(107, 127, 216, 0.25);
+      font-weight: 600;
+    }
+
+    /* Podcast Cards */
+    .podcast-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .podcast-card {
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(60px) saturate(250%);
+      -webkit-backdrop-filter: blur(60px) saturate(250%);
+      box-shadow: 0 6px 28px rgba(107, 127, 216, 0.08),
+                  0 2px 8px rgba(107, 127, 216, 0.06),
+                  inset 0 1px 0 rgba(255,255,255,0.9),
+                  inset 0 -1px 0 rgba(255,255,255,0.4);
+    }
+
+    /* 每张卡片不同的彩色底纹 */
+    .podcast-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      opacity: 1;
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .podcast-card:nth-child(1)::before {
+      background: linear-gradient(135deg, rgba(78, 205, 196, 0.12) 0%, rgba(107, 159, 216, 0.08) 40%, transparent 75%);
+    }
+    .podcast-card:nth-child(2)::before {
+      background: linear-gradient(135deg, rgba(155, 127, 216, 0.1) 0%, rgba(200, 127, 186, 0.08) 40%, transparent 75%);
+    }
+    .podcast-card:nth-child(3)::before {
+      background: linear-gradient(135deg, rgba(107, 159, 216, 0.1) 0%, rgba(78, 205, 196, 0.08) 40%, transparent 75%);
+    }
+    .podcast-card:nth-child(4)::before {
+      background: linear-gradient(135deg, rgba(200, 127, 186, 0.1) 0%, rgba(155, 127, 216, 0.08) 40%, transparent 75%);
+    }
+    .podcast-card:nth-child(5)::before {
+      background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(155, 127, 216, 0.08) 40%, transparent 75%);
+    }
+
+    .podcast-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .podcast-card:hover {
+      border-color: rgba(255, 255, 255, 1);
+      transform: translateY(-4px);
+      box-shadow: 0 24px 64px rgba(107, 127, 216, 0.15),
+                  0 12px 24px rgba(155, 127, 216, 0.1),
+                  inset 0 1px 0 rgba(255,255,255,0.95);
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    .podcast-card:hover::before {
+      opacity: 1.2;
+    }
+
+    .card-content {
+      display: flex;
+      gap: 14px;
+    }
+
+    .card-visual {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--core);
+      opacity: 0.1;
+    }
+
+    .card-visual.ai { background: linear-gradient(135deg, rgba(78, 205, 196, 0.15), rgba(107, 159, 216, 0.15)); }
+    .card-visual.cooling { background: linear-gradient(135deg, rgba(107, 159, 216, 0.15), rgba(155, 127, 216, 0.15)); }
+    .card-visual.paper { background: linear-gradient(135deg, rgba(155, 127, 216, 0.15), rgba(200, 127, 186, 0.12)); }
+    .card-visual.video { background: linear-gradient(135deg, rgba(200, 127, 186, 0.12), rgba(107, 159, 216, 0.15)); }
+    .card-visual.security { background: linear-gradient(135deg, rgba(78, 205, 196, 0.15), rgba(155, 127, 216, 0.12)); }
+
+    .card-visual svg {
+      width: 32px;
+      height: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .card-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(107, 127, 216, 0.08);
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-type {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: var(--text-primary);
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .card-date {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .card-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .card-stats span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Subscribe Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 200;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .modal {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(100%) !important;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 24px 24px 0 0;
+      padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+      z-index: 201;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.4s;
+      max-width: 480px;
+      width: 100%;
+      pointer-events: none;
+      visibility: hidden;
+      backdrop-filter: blur(60px) saturate(250%);
+      -webkit-backdrop-filter: blur(60px) saturate(250%);
+      border-top: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 -16px 64px rgba(107, 127, 216, 0.18),
+                  inset 0 1px 0 rgba(255,255,255,0.9);
+      max-height: 85vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 481px) {
+      .modal {
+        max-width: 480px;
+        border-radius: 24px 24px 0 0;
+        padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+      }
+    }
+
+    .modal.active {
+      transform: translateX(-50%) translateY(0) !important;
+      pointer-events: auto;
+      visibility: visible;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0s;
+    }
+
+    .modal-handle {
+      width: 40px;
+      height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+      margin: 0 auto 24px;
+    }
+
+    .modal h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal > p {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .industry-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .industry-option {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1.5px solid #c8cdd5;
+      background: var(--surface);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-primary);
+      user-select: none;
+    }
+
+    .industry-option:hover {
+      border-color: var(--core);
+      background: rgba(74, 111, 165, 0.04);
+    }
+
+    .industry-option.selected {
+      background: rgba(74, 111, 165, 0.08);
+      border-color: var(--core);
+      color: var(--core);
+      font-weight: 600;
+    }
+
+    .industry-option input {
+      display: none;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1.5px solid #c8cdd5;
+      background: var(--surface);
+      color: var(--text-primary);
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--core);
+      box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.12);
+    }
+
+    .form-group input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, #4ecdc4, #6b9fd8, #9b7fd8);
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+      box-shadow: 0 4px 20px rgba(107, 127, 216, 0.3);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(74, 111, 165, 0.45);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(51, 51, 51, 0.15);
+    }
+
+    /* Detail Page */
+    .detail-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      background: #fafbfc;
+      z-index: 9999;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .detail-page::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse 80% 45% at 80% 10%, rgba(155, 127, 216, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 50% at 10% 35%, rgba(78, 205, 196, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 35% at 75% 60%, rgba(107, 159, 216, 0.1) 0%, transparent 45%),
+        radial-gradient(ellipse 80% 40% at 30% 85%, rgba(200, 127, 186, 0.08) 0%, transparent 50%),
+        #fafbfc;
+      z-index: -1;
+    }
+
+    .detail-page.active {
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    @media (min-width: 481px) {
+      .detail-page {
+        background: #fafbfc;
+        backdrop-filter: blur(10px);
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+        box-shadow: 0 0 40px rgba(0,0,0,0.08);
+      }
+    }
+
+    .detail-header {
+      position: sticky;
+      top: 0;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.22);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.95);
+      z-index: 10;
+      backdrop-filter: blur(60px) saturate(250%);
+      -webkit-backdrop-filter: blur(60px) saturate(250%);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    @media (min-width: 481px) {
+      .detail-header {
+        max-width: 480px;
+        margin: 0 auto;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        border-right: 1px solid rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    .detail-header-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .detail-header-inner span,
+    .detail-header-title {
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--core);
+      flex-shrink: 0;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    .detail-content {
+      padding: 16px 16px 100px;
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      min-height: calc(100vh - 60px);
+    }
+
+    @media (min-width: 481px) {
+      .detail-content {
+        padding: 16px 16px 100px;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        border-right: 1px solid rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    .detail-hero {
+      width: 100%;
+      aspect-ratio: 16/10;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(78, 205, 196, 0.12), rgba(107, 159, 216, 0.15), rgba(155, 127, 216, 0.12));
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(60px) saturate(250%);
+      -webkit-backdrop-filter: blur(60px) saturate(250%);
+      box-shadow: 0 12px 48px rgba(107, 127, 216, 0.12),
+                  inset 0 1px 0 rgba(255,255,255,0.9),
+                  inset 0 -1px 0 rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-hero svg {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .detail-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .detail-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .detail-body {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.9;
+      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(60px) saturate(250%);
+      -webkit-backdrop-filter: blur(60px) saturate(250%);
+      box-shadow: 0 12px 48px rgba(107, 127, 216, 0.1),
+                  inset 0 1px 0 rgba(255,255,255,0.9),
+                  inset 0 -1px 0 rgba(255,255,255,0.4);
+      border-radius: 20px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-body::before {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(78, 205, 196, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .detail-body::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(155, 127, 216, 0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .detail-body p {
+      margin-bottom: 12px;
+    }
+
+    .detail-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-body strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .detail-body h3 {
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 700;
+      margin: 20px 0 12px;
+      line-height: 1.4;
+    }
+
+    .detail-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.04), rgba(99, 102, 241, 0.1));
+      margin: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-light);
+    }
+
+    /* Detail Page Audio Player - Simple Style */
+    .detail-player {
+      position: fixed;
+      bottom: 24px;
+      right: calc(50% - 240px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 480px) {
+      .detail-player {
+        right: 0;
+      }
+    }
+
+    .detail-player-toggle {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #4ecdc4, #6b9fd8, #9b7fd8);
+      border: none;
+      border-radius: 12px 0 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      box-shadow: -4px 0 15px rgba(78, 205, 196, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .detail-player-toggle:hover {
+      transform: translateX(-2px);
+      box-shadow: -6px 0 20px rgba(78, 205, 196, 0.4);
+    }
+
+    .detail-player-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .detail-player-panel {
+      width: 0;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-right: none;
+      border-radius: 12px 0 0 12px;
+      backdrop-filter: blur(60px) saturate(250%);
+      -webkit-backdrop-filter: blur(60px) saturate(250%);
+      box-shadow: 0 6px 32px rgba(107, 127, 216, 0.15),
+                  inset 0 1px 0 rgba(255,255,255,0.9);
+      transition: all 0.3s ease;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 44px;
+    }
+
+    .detail-player.expanded .detail-player-panel {
+      width: 220px;
+      padding: 0 12px;
+      opacity: 1;
+    }
+
+    .detail-player.expanded .detail-player-toggle {
+      border-radius: 0 12px 12px 0;
+      margin-left: -1px;
+    }
+
+    .detail-player-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4ecdc4, #6b9fd8, #9b7fd8);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+    }
+
+    .detail-player-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .detail-player-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .detail-player-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .detail-player-progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--border-light);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4ecdc4, #6b9fd8, #9b7fd8);
+      border-radius: 2px;
+      transition: width 0.1s linear;
+    }
+
+    .detail-player-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 4px;
+    }
+
+    .download-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 40px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .download-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+    }
+
+    .download-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .download-icon.pdf { background: rgba(0, 0, 0, 0.04); }
+    .download-icon.doc { background: rgba(0, 0, 0, 0.04); }
+
+    .download-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .download-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .download-info p {
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-primary);
+    }
+
+    .download-info span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .download-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-light);
+      color: var(--core);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .download-btn:hover {
+      background: var(--core);
+      color: white;
+    }
+
+    /* Download Progress Modal */
+    .progress-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .progress-modal.active {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    .progress-modal-content {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 20px;
+      padding: 32px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .progress-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(78, 205, 196, 0.15), rgba(123, 104, 200, 0.15));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .progress-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 36 36" fill="none">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#4ecdc4"/>
+                <stop offset="50%" style="stop-color:#6b9fd8"/>
+                <stop offset="100%" style="stop-color:#9b7fd8"/>
+              </linearGradient>
+            </defs>
+            <rect width="36" height="36" rx="8" fill="url(#logoGrad)"/>
+            <path d="M12 24V12l12-3v15" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="12" cy="24" r="3" fill="white"/>
+            <circle cx="24" cy="21" r="3" fill="white"/>
+          </svg>
+        </div>
+        <div class="logo-text">超聚变<span>播客</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner Carousel -->
+  <div class="banner-carousel" id="bannerCarousel">
+    <div class="banner-track" id="bannerTrack">
+      <div class="banner-slide" onclick="openBannerPDF(0)" style="cursor: pointer;">
+        <div class="banner-slide-bg"></div>
+        <div class="banner-slide-content">
+          <div class="banner-slide-tag">🔥 热门专题</div>
+          <div class="banner-slide-title">AI先锋实践<br>智算赋能新时代</div>
+          <div class="banner-slide-desc">探索人工智能在政务、金融、制造等行业的前沿落地</div>
+        </div>
+        <div class="banner-slide-deco">
+          <svg viewBox="0 0 90 90" fill="none" width="90" height="90"><circle cx="45" cy="45" r="40" stroke="#999" stroke-width="1"/><circle cx="45" cy="45" r="25" stroke="#888" stroke-width="1.5"/><path d="M30 45h30M45 30v30" stroke="#999" stroke-width="1"/></svg>
+        </div>
+      </div>
+      <div class="banner-slide" onclick="openBannerPDF(1)" style="cursor: pointer;">
+        <div class="banner-slide-bg"></div>
+        <div class="banner-slide-content">
+          <div class="banner-slide-tag">📄 白皮书发布</div>
+          <div class="banner-slide-title">液冷技术白皮书<br>重新定义散热</div>
+          <div class="banner-slide-desc">超聚变全栈液冷解决方案，PUE低至1.1</div>
+        </div>
+        <div class="banner-slide-deco">
+          <svg viewBox="0 0 90 90" fill="none" width="90" height="90"><rect x="15" y="10" width="60" height="70" rx="4" stroke="#aaa" stroke-width="1.5"/><line x1="28" y1="30" x2="62" y2="30" stroke="#999" stroke-width="1"/><line x1="28" y1="42" x2="55" y2="42" stroke="#999" stroke-width="1"/><line x1="28" y1="54" x2="50" y2="54" stroke="#999" stroke-width="1"/></svg>
+        </div>
+      </div>
+      <div class="banner-slide" onclick="openBannerPDF(2)" style="cursor: pointer;">
+        <div class="banner-slide-bg"></div>
+        <div class="banner-slide-content">
+          <div class="banner-slide-tag">🎙️ 最新播客</div>
+          <div class="banner-slide-title">智算中心建设<br>架构与实践</div>
+          <div class="banner-slide-desc">深度解析新一代智算中心技术路线与选型策略</div>
+        </div>
+        <div class="banner-slide-deco">
+          <svg viewBox="0 0 90 90" fill="none" width="90" height="90"><rect x="20" y="15" width="50" height="60" rx="6" stroke="#999" stroke-width="1.5"/><circle cx="45" cy="40" r="12" stroke="#999" stroke-width="1"/><line x1="45" y1="52" x2="45" y2="65" stroke="#999" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="banner-dots" id="bannerDots">
+      <div class="banner-dot active" data-index="0"></div>
+      <div class="banner-dot" data-index="1"></div>
+      <div class="banner-dot" data-index="2"></div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Three-Level Filter Section -->
+    <section class="filter-section">
+      <!-- Level 1: Industry -->
+      <div class="filter-level">
+        <div class="filter-label">行业</div>
+        <div class="filter-options" id="industryFilters">
+          <span class="filter-chip active" data-level="industry" data-value="all">全部行业</span>
+          <span class="filter-chip" data-level="industry" data-value="人工智能">人工智能</span>
+          <span class="filter-chip" data-level="industry" data-value="智算中心">智算中心</span>
+          <span class="filter-chip" data-level="industry" data-value="政务">政务</span>
+          <span class="filter-chip" data-level="industry" data-value="企业数字化">企业数字化</span>
+          <span class="filter-chip" data-level="industry" data-value="安全">安全</span>
+        </div>
+      </div>
+
+      <!-- Level 2: Type -->
+      <div class="filter-level">
+        <div class="filter-label">资讯类型</div>
+        <div class="filter-options" id="typeFilters">
+          <span class="filter-chip active" data-level="type" data-value="all">全部类型</span>
+          <span class="filter-chip" data-level="type" data-value="音频">音频播客</span>
+          <span class="filter-chip" data-level="type" data-value="文档">技术文档</span>
+          <span class="filter-chip" data-level="type" data-value="视频">视频资料</span>
+        </div>
+      </div>
+
+      <!-- Level 3: Tags -->
+      <div class="filter-level">
+        <div class="filter-label">标签</div>
+        <div class="filter-options" id="tagFilters">
+          <span class="filter-chip active" data-level="tag" data-value="all">全部标签</span>
+          <span class="filter-chip" data-level="tag" data-value="AI服务器">AI服务器</span>
+          <span class="filter-chip" data-level="tag" data-value="液冷技术">液冷技术</span>
+          <span class="filter-chip" data-level="tag" data-value="政务AI">政务AI</span>
+          <span class="filter-chip" data-level="tag" data-value="智算中心">智算中心</span>
+          <span class="filter-chip" data-level="tag" data-value="安全">安全</span>
+          <span class="filter-chip" data-level="tag" data-value="白皮书">白皮书</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Podcast List -->
+    <section class="podcast-list" id="podcastList"></section>
+  </main>
+
+  </div><!-- end app-shell -->
+
+  <!-- Subscribe Modal - Outside app-shell -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeSubscribe()"></div>
+  <div class="modal" id="subscribeModal">
+    <div class="modal-handle"></div>
+    <h3>订阅行业资讯</h3>
+    <p>选择您感兴趣的行业，获取最新播客和资料推送</p>
+
+    <div class="industry-grid">
+      <label class="industry-option selected" onclick="this.classList.toggle('selected')">
+        <input type="checkbox" checked>
+        <span>人工智能</span>
+      </label>
+      <label class="industry-option" onclick="this.classList.toggle('selected')">
+        <input type="checkbox">
+        <span>智算中心</span>
+      </label>
+      <label class="industry-option" onclick="this.classList.toggle('selected')">
+        <input type="checkbox">
+        <span>数字化转型</span>
+      </label>
+      <label class="industry-option" onclick="this.classList.toggle('selected')">
+        <input type="checkbox">
+        <span>边缘计算</span>
+      </label>
+      <label class="industry-option" onclick="this.classList.toggle('selected')">
+        <input type="checkbox">
+        <span>安全</span>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <input type="text" placeholder="您的姓名">
+    </div>
+    <div class="form-group">
+      <input type="tel" placeholder="手机号码">
+    </div>
+    <div class="form-group">
+      <input type="email" placeholder="企业邮箱">
+    </div>
+
+    <button class="submit-btn" onclick="submitSubscribe()">立即订阅</button>
+
+    <!-- 公众号二维码 -->
+    <div style="margin-top: 24px; text-align: center; padding-top: 20px; border-top: 1px solid var(--border-light);">
+      <div style="width: 120px; height: 120px; margin: 0 auto; background: #fff; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-light); overflow: hidden;">
+        <img src="qrcode.png" alt="公众号二维码" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      <p style="margin-top: 12px; font-size: 13px; color: var(--text-dim); text-align: center;">关注服务号，了解更多资讯</p>
+    </div>
+  </div>
+
+  <!-- Detail Page - Outside app-shell for full coverage -->
+  <div class="detail-page" id="detailPage">
+    <div class="detail-header">
+      <div class="detail-header-inner">
+        <button class="back-btn" onclick="closeDetail()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <span class="detail-header-title" style="font-weight: 600;">播客详情</span>
+      </div>
+    </div>
+
+    <div class="detail-content" id="detailContent"></div>
+
+    <!-- Detail Page Audio Player -->
+    <div class="detail-player" id="detailPlayer" style="display: none;">
+      <div class="detail-player-panel">
+        <button class="detail-player-btn" onclick="toggleDetailPlay()" id="detailPlayBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="detail-player-info">
+          <div class="detail-player-progress">
+            <div class="progress-bar" onclick="seekDetail(event)">
+              <div class="progress-fill" id="detailProgress" style="width: 0%"></div>
+            </div>
+            <div class="detail-player-time">
+              <span id="detailCurrent">00:00</span> / <span id="detailDuration">15:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="detail-player-toggle" onclick="toggleDetailPlayer()" id="detailPlayerToggle">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Subscribe Button - Outside app-shell to avoid clipping -->
+  <button class="subscribe-fab" onclick="showSubscribe()">订阅</button>
+
+  <script>
+    // Podcast Data
+    const podcasts = [
+      {
+        id: 1,
+        title: "AI先锋实践｜知识赋能，开启上海政务办公智时代",
+        desc: "辖区企业经营情况摸排不清、社情民意洞察低效、跨部门协作查询繁琐、审批合规性问题反复确认--这些长期困扰基层政务办公的堵点，如今正被AI技术逐步打通。",
+        industry: "政务",
+        type: "音频",
+        tag: "政务AI",
+        date: "2024-04-10",
+        views: "2.3K",
+        duration: "18分钟",
+        icon: "ai",
+        content: `
+          <div class="detail-image">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M9 9h6v6H9z"/>
+            </svg>
+          </div>
+          <p>上海市某基层机关作为对接上海中心城区、对外联动长三角核心城市的重要门户，是打造长三角G60科创走廊创新策源地的关键节点。为深入贯彻落实人工智能+政务服务改革要求，持续推动高效办成一件事落地见效，该政务部门携手超聚变与深言未来，推出<strong>政务AI智能体助手</strong>，实现<strong>一句话办业务、一键式写公文</strong>的新型政务办公模式，为全国县镇级政府智能化转型建设打造可推广的示范样板。</p>
+
+          <h3>精准把脉三大堵点，AI赋能政务全链条</h3>
+
+          <p><strong>一句话办业务，基层办公效率提升40%</strong></p>
+          <p>数据统计显示，基层政务工作人员以往需花费近40%的工作时间，处理办事流程审批、跨部门数据调取、文件整理及报告输出等繁琐工作，不仅要反复协调多个部门，还要人工查阅海量档案资料。即便有相关政务系统支撑，也存在数据分散存储、跨部门共享难等问题，办公效率不足。</p>
+
+          <div class="detail-image">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+
+          <p>基于超聚变FusionOne AI与深言未来联合打造的智能政务一体化办公平台，该政务部门打通镇政府各职能部门、上级政务平台及辖区重点园区等多来源知识与数据资源，构建千万量级专业知识库，覆盖政策法规、办事流程、产业数据、民生诉求等多维信息，并整合12345热线、社交媒体留言等社情民意相关数据，实现信息一网汇聚、一键调取。</p>
+
+          <p>如今，市场监管部门如需了解某企业社保缴纳情况，只需通过自然语言下达指令，系统便会根据用户身份权限，跨部门自动调取相关数据，生成包含该企业社保缴纳基数、缴纳明细、合规情况等核心信息的报表；如需掌握上半年高新区新增注册资本超千万元企业数量，系统也可快速完成数据数据检索、筛选与分析，自动生成包含企业名单、注册资本明细、行业分布等维度的可视化报告。依托该功能，政务工作人员<strong>政策查询与知识获取时间由平均15分钟缩短至30秒以内，信息查找准确率也提升至90%以上</strong>，真正实现让数据多跑路，让群众少跑腿。</p>
+
+          <p><strong>AI辅助公文写作，初稿生成时间缩短70%</strong></p>
+          <p>在传统办公模式下，基层部门平均每月需处理各类公文30余件，涵盖行政通知、工作总结计划、政策起草、政策解读、调研报告等多类文书。公文从初稿草拟、内容打磨到格式校对、多层审核，往往依赖人工反复修改与流转，既耗费大量人力时间，还易出现表述纰漏、格式不规范等问题，影响整体办理效率。</p>
+
+          <p>依托智能政务一体化办公平台，工作人员可一键调用各类规范公文模板，也可上传范文提取写作风格并生成适配内容，成功将公文初稿平均撰写时长从小时级压缩至分钟级，显著提升政务文稿起草效率。初稿完成后，平台可提供语言润色、逻辑梳理、结构调整等精细化优化功能，助力工作人员快速打磨文稿、提升内容质量。提交审核后，系统不仅能精准检测错别字、语法错误、标点偏差等基础问题，更能敏锐识别政治敏感信息、表述偏差等风险点，综合分析潜在隐患，<strong>错误检出率达95%以上</strong>，显著降低审核成本，进一步提升公文质量与规范水平。</p>
+
+          <p><strong>万字长文性能优化，破解高并发场景痛点</strong></p>
+          <p>随着政务智能应用持续深化，系统压力与性能瓶颈将逐步显现：高峰期多人并发访问知识库、基层人员高频查询业务、长公文与多轮对话输出等场景，容易引发响应迟缓、对话中断等问题。破局关键在于提前构建与政务业务深度适配的智能基座，稳健应对未来各类业务压力风险。</p>
+
+          <div class="detail-image">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+
+          <p>基于这一判断，该政务部门选择超聚变FusionOne AI作为AI系统底座，依托软硬协同推理加速技术释放算力潜能，高效支撑长公文输出、多人并发、多轮问答等核心场景稳定运行。测试显示，相较传统单一硬件模式，该方案实现<strong>多轮问答等待时间降低60%、并发操作人数提升1倍，从容满足200人规模部门的日常使用需求</strong>。这一突破源于超聚变在算、存、网系统层面的持续优化，通过最大化发挥算力效能，为政务AI稳定运行筑牢技术底座。</p>
+
+          <p><strong>协同赋能筑标杆，智启政务新未来</strong></p>
+          <p>政务智能化转型并非单点技术的简单叠加，而是算力、应用与场景的深度融合。该政务部门携手超聚变与深言未来，聚焦基层政务办公痛点，推动政务办公智能体落地应用，实现效率提升与流程优化的双重突破。此次三方协同打造的示范样板，为全国县镇级政府破解基层治理难题、推进人工智能+政务服务改革提供标准化、可复制的解决方案，助力政务办公迈向更高质量、更高效率的智能化阶段。</p>
+        `,
+        downloads: [
+          { name: "政务AI解决方案白皮书.pdf", size: "3.2 MB", type: "pdf" },
+          { name: "FusionOne AI产品手册.docx", size: "2.8 MB", type: "doc" }
+        ]
+      },
+      {
+        id: 2,
+        title: "FusionServer AI服务器技术解析",
+        desc: "深入解读超聚变AI服务器的架构设计、性能优化及行业应用案例，探讨算力密度与能效比的突破。",
+        industry: "人工智能",
+        type: "音频",
+        tag: "AI服务器",
+        date: "2024-03-15",
+        views: "1.2K",
+        duration: "15分钟",
+        icon: "ai",
+        content: `
+          <p>本期播客深入解读超聚变AI服务器的架构设计、性能优化及行业应用案例。我们将探讨FusionServer系列如何在算力密度、能效比、可靠性等方面实现突破，以及在大模型训练、推理等场景下的最佳实践。</p>
+          <h3>核心亮点</h3>
+          <p>FusionServer AI服务器采用先进的液冷散热技术，支持最高8颗GPU加速卡，为AI训练和推理提供强劲算力支撑。通过软硬协同优化，实现训练效率提升40%，能耗降低25%。</p>
+          <div class="detail-image">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M9 9h6v6H9z"/>
+            </svg>
+          </div>
+          <p>超聚变AI服务器采用模块化设计，支持灵活配置，可根据不同AI工作负载进行优化。从单机8卡到千卡集群，提供全场景AI算力解决方案。</p>
+        `,
+        downloads: [
+          { name: "AI服务器产品手册.pdf", size: "4.2 MB", type: "pdf" },
+          { name: "技术白皮书.docx", size: "2.8 MB", type: "doc" }
+        ]
+      },
+      {
+        id: 3,
+        title: "FusionPoD液冷服务器绿色算力实践",
+        desc: "探索液冷技术如何助力数据中心实现PUE低于1.1的绿色算力目标，分享实际部署案例。",
+        industry: "智算中心",
+        type: "文档",
+        tag: "液冷技术",
+        date: "2024-03-12",
+        views: "856",
+        duration: "PDF",
+        icon: "cooling",
+        content: `
+          <p>液冷技术正在成为数据中心绿色转型的关键。本资料详细介绍FusionPoD液冷解决方案的技术原理、部署方案和实际效果。</p>
+          <div class="detail-image">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1">
+              <path d="M12 2v6m0 8v6M2 12h6m8 0h6"/>
+              <circle cx="12" cy="12" r="4"/>
+            </svg>
+          </div>
+          <p>通过全液冷设计，FusionPoD可将数据中心PUE降至1.1以下，相比传统风冷方案节能40%以上，同时降低噪音和机房空间需求。</p>
+        `,
+        downloads: [
+          { name: "液冷技术白皮书.pdf", size: "5.1 MB", type: "pdf" }
+        ]
+      },
+      {
+        id: 4,
+        title: "2024智算中心发展白皮书",
+        desc: "全面分析智算中心市场趋势、技术演进及超聚变解决方案，48页深度报告。",
+        industry: "智算中心",
+        type: "文档",
+        tag: "智算中心",
+        date: "2024-03-10",
+        views: "2.1K",
+        duration: "48页",
+        icon: "paper",
+        content: `
+          <p>白皮书涵盖智算中心市场规模、技术发展趋势、典型应用场景和超聚变全栈解决方案。</p>
+          <div class="detail-image">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          <p>预计到2025年，中国智算中心市场规模将突破千亿。超聚变提供从芯片、服务器到集群管理的全栈智算解决方案，助力客户快速构建AI算力基础设施。</p>
+        `,
+        downloads: [
+          { name: "2024智算中心发展白皮书.pdf", size: "8.5 MB", type: "pdf" }
+        ]
+      },
+      {
+        id: 5,
+        title: "xSEC一体化安全运营体系",
+        desc: "构建从芯片到系统的全栈安全防护能力，保障智算中心安全运行。",
+        industry: "安全",
+        type: "音频",
+        tag: "安全",
+        date: "2024-03-08",
+        views: "967",
+        duration: "22分钟",
+        icon: "security",
+        content: `
+          <p>安全是智算中心的基石。本期播客介绍xSEC安全体系的核心能力和实践案例。</p>
+          <div class="detail-image">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <p>xSEC提供硬件可信根、固件安全、系统安全、数据安全、网络安全五层防护，构建端到端的安全可信计算环境。</p>
+        `,
+        downloads: [
+          { name: "xSEC安全白皮书.pdf", size: "3.8 MB", type: "pdf" }
+        ]
+      }
+    ];
+
+    // Filter State
+    let activeFilters = {
+      industry: ['all'],
+      type: ['all'],
+      tag: ['all']
+    };
+
+    // Render Podcast List
+    function renderPodcastList() {
+      let filtered = podcasts;
+
+      // Apply filters - 支持多选
+      if (!activeFilters.industry.includes('all')) {
+        filtered = filtered.filter(p => activeFilters.industry.includes(p.industry));
+      }
+      if (!activeFilters.type.includes('all')) {
+        filtered = filtered.filter(p => activeFilters.type.includes(p.type));
+      }
+      if (!activeFilters.tag.includes('all')) {
+        filtered = filtered.filter(p => activeFilters.tag.includes(p.tag));
+      }
+
+      const container = document.getElementById('podcastList');
+      if (!container) return;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted);">暂无符合条件的播客</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => `
+        <article class="podcast-card" onclick="showDetail(${p.id})">
+          <div class="card-content">
+            <div class="card-visual ${p.icon}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" width="32" height="32">
+                ${getIconPath(p.icon)}
+              </svg>
+            </div>
+            <div class="card-info">
+              <div class="card-meta">
+                <span class="card-tag">${p.tag}</span>
+                <span class="card-type">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    ${p.type === '音频' ? '<path d="M9 19V6l12-3v13"/>' : '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>'}
+                  </svg>
+                  ${p.type}
+                </span>
+              </div>
+              <h3 class="card-title">${p.title}</h3>
+              <p class="card-desc">${p.desc}</p>
+              <div class="card-footer">
+                <span class="card-date">${p.date}</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function getIconPath(icon) {
+      const paths = {
+        ai: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 3v6M15 3v6M9 15v6M15 15v6M3 9h6M3 15h6M15 9h6M15 15h6"/>',
+        cooling: '<path d="M12 2v6m0 8v6M2 12h6m8 0h6"/><circle cx="12" cy="12" r="4"/>',
+        paper: '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+        video: '<rect x="2" y="2" width="20" height="20" rx="2"/><polygon points="10 8 16 12 10 16 10 8"/>',
+        security: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>'
+      };
+      return paths[icon] || paths.ai;
+    }
+
+    // Filter Handler - 支持多选
+    function handleFilterClick(el, level, value) {
+      const container = el.parentElement;
+      const isAll = value === 'all';
+      const isActive = el.classList.contains('active');
+      
+      if (isAll) {
+        // 点击"全部"：取消其他所有选中，只保留全部
+        container.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+        el.classList.add('active');
+        activeFilters[level] = ['all'];
+      } else {
+        // 点击具体选项
+        const allChip = container.querySelector('[data-value="all"]');
+        
+        if (isActive) {
+          // 如果已选中，取消选中
+          el.classList.remove('active');
+          // 检查是否还有其他选中，如果没有则选中"全部"
+          const activeChips = container.querySelectorAll('.filter-chip.active');
+          if (activeChips.length === 0) {
+            allChip.classList.add('active');
+            activeFilters[level] = ['all'];
+          } else {
+            activeFilters[level] = Array.from(activeChips).map(chip => chip.dataset.value);
+          }
+        } else {
+          // 未选中，添加选中
+          el.classList.add('active');
+          // 取消"全部"的选中
+          allChip.classList.remove('active');
+          // 更新选中列表
+          const activeChips = container.querySelectorAll('.filter-chip.active');
+          activeFilters[level] = Array.from(activeChips).map(chip => chip.dataset.value);
+        }
+      }
+      
+      // Re-render list
+      renderPodcastList();
+    }
+
+    // Initialize filter click handlers
+    document.addEventListener('DOMContentLoaded', function() {
+      renderPodcastList();
+
+      // Banner Carousel
+      let bannerIndex = 0;
+      const bannerTrack = document.getElementById('bannerTrack');
+      const bannerDots = document.querySelectorAll('.banner-dot');
+      const slideCount = 3;
+
+      function goToSlide(i) {
+        bannerIndex = i;
+        bannerTrack.style.transform = `translateX(-${i * 100}%)`;
+        bannerDots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+      }
+
+      bannerDots.forEach(dot => {
+        dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.index)));
+      });
+
+      // Touch swipe support
+      let touchStartX = 0;
+      const carousel = document.getElementById('bannerCarousel');
+      carousel.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      carousel.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0 && bannerIndex < slideCount - 1) goToSlide(bannerIndex + 1);
+          else if (diff < 0 && bannerIndex > 0) goToSlide(bannerIndex - 1);
+        }
+      }, { passive: true });
+
+      // Auto-play every 4s
+      let bannerTimer = setInterval(() => goToSlide((bannerIndex + 1) % slideCount), 4000);
+      carousel.addEventListener('touchstart', () => clearInterval(bannerTimer), { passive: true });
+      carousel.addEventListener('touchend', () => { bannerTimer = setInterval(() => goToSlide((bannerIndex + 1) % slideCount), 4000); }, { passive: true });
+
+      // Attach click handlers to all filter chips
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+          const level = this.dataset.level;
+          const value = this.dataset.value;
+          handleFilterClick(this, level, value);
+        });
+      });
+    });
+
+    // Banner PDF URLs - 每个banner对应的PDF
+    const bannerPDFs = [
+      'ai-practice',
+      'liquid-cooling',
+      'smart-computing'
+    ];
+
+    // Open Banner PDF
+    function openBannerPDF(index) {
+      const pdfKey = bannerPDFs[index];
+      window.location.href = `pdf-viewer.html?pdf=${pdfKey}`;
+    }
+
+    // Subscribe Modal
+    function showSubscribe() {
+      document.getElementById('modalOverlay').classList.add('active');
+      document.getElementById('subscribeModal').classList.add('active');
+      document.querySelector('.subscribe-fab').style.display = 'none';
+      document.querySelector('.app-shell').style.display = 'none';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSubscribe() {
+      document.getElementById('modalOverlay').classList.remove('active');
+      document.getElementById('subscribeModal').classList.remove('active');
+      document.querySelector('.subscribe-fab').style.display = '';
+      document.querySelector('.app-shell').style.display = '';
+      document.body.style.overflow = '';
+    }
+
+    function submitSubscribe() {
+      closeSubscribe();
+      setTimeout(() => alert('订阅成功！'), 300);
+    }
+
+    // Detail Page
+    function showDetail(id) {
+      const podcast = podcasts.find(p => p.id === id);
+      if (!podcast) return;
+
+      // Set header title
+      document.querySelector('.detail-header-title').textContent = podcast.title;
+      document.body.style.overflow = 'hidden';
+      document.querySelector('.app-shell').style.display = 'none';
+
+      const content = document.getElementById('detailContent');
+      content.innerHTML = `
+        <div class="detail-hero">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1" width="80" height="80">
+            ${getIconPath(podcast.icon)}
+          </svg>
+        </div>
+
+        <h1 class="detail-title">${podcast.title}</h1>
+
+        <div class="detail-meta">
+          <span class="card-tag">${podcast.tag}</span>
+          <span style="font-size: 13px; color: var(--text-muted);">${podcast.date}</span>
+        </div>
+
+        <div class="detail-body">
+          ${podcast.content}
+        </div>
+
+        <h3 class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
+          </svg>
+          相关资料下载
+        </h3>
+
+        <div class="download-list">
+          ${podcast.downloads.map(d => `
+            <div class="download-item">
+              <div class="download-icon ${d.type}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="${d.type === 'pdf' ? '#ef4444' : '#3b82f6'}" stroke-width="2" width="22" height="22">
+                  ${d.type === 'pdf'
+                    ? '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>'
+                    : '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>'
+                  }
+                </svg>
+              </div>
+              <div class="download-info">
+                <p>${d.name}</p>
+                <span>${d.size}</span>
+              </div>
+              <button class="download-btn" onclick="downloadFile('${d.name}')">下载</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      document.getElementById('detailPage').classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // Show audio player for audio type podcasts
+      if (podcast.type === '音频') {
+        document.getElementById('detailPlayer').style.display = 'flex';
+      } else {
+        document.getElementById('detailPlayer').style.display = 'none';
+      }
+
+      // Reset player state
+      detailIsPlaying = false;
+      detailCurrentTime = 0;
+      detailPlayerExpanded = false;
+      document.getElementById('detailPlayer').classList.remove('expanded');
+
+      const musicIcon = `<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>`;
+      const playIcon = `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M8 5v14l11-7z"/></svg>`;
+
+      document.getElementById('detailPlayerToggle').innerHTML = musicIcon;
+      stopDetailProgress();
+      document.getElementById('detailPlayBtn').innerHTML = playIcon;
+      document.getElementById('detailProgress').style.width = '0%';
+      document.getElementById('detailCurrent').textContent = '00:00';
+    }
+
+    function closeDetail() {
+      document.getElementById('detailPage').classList.remove('active');
+      document.body.style.overflow = '';
+      document.querySelector('.app-shell').style.display = '';
+      stopDetailProgress();
+    }
+
+    // Download
+    function downloadFile(filename) {
+      document.getElementById('progressModal').classList.add('active');
+      document.getElementById('progressFilename').textContent = filename;
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          document.getElementById('progressText').textContent = '下载完成！';
+          setTimeout(() => {
+            closeProgressModal();
+          }, 1000);
+        }
+        document.getElementById('progressBar').style.width = progress + '%';
+        document.getElementById('progressText').textContent = '下载中 ' + Math.round(progress) + '%';
+      }, 200);
+    }
+
+    function closeProgressModal() {
+      document.getElementById('progressModal').classList.remove('active');
+      document.getElementById('progressBar').style.width = '0%';
+    }
+
+    // Detail Page Audio Player
+    let detailIsPlaying = false;
+    let detailCurrentTime = 0;
+    let detailDuration = 900; // 15 minutes in seconds
+    let detailPlayInterval = null;
+    let detailPlayerExpanded = false;
+
+    function toggleDetailPlayer() {
+      detailPlayerExpanded = !detailPlayerExpanded;
+      const player = document.getElementById('detailPlayer');
+      const toggle = document.getElementById('detailPlayerToggle');
+
+      const musicIcon = `<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>`;
+      const closeIcon = `<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+
+      if (detailPlayerExpanded) {
+        player.classList.add('expanded');
+        toggle.innerHTML = closeIcon;
+      } else {
+        player.classList.remove('expanded');
+        toggle.innerHTML = musicIcon;
+      }
+    }
+
+    function toggleDetailPlay() {
+      detailIsPlaying = !detailIsPlaying;
+      const btn = document.getElementById('detailPlayBtn');
+
+      // Simple Icons
+      const playIcon = `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M8 5v14l11-7z"/></svg>`;
+      const pauseIcon = `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>`;
+
+      const backIcon = `<svg viewBox="0 0 24 24" fill="none" width="20" height="20" stroke="currentColor" stroke-width="2"><path d="M15 19l-7-7 7-7"/></svg>`;
+
+      if (detailIsPlaying) {
+        btn.innerHTML = pauseIcon;
+        toggle.innerHTML = waveActiveIcon + '<span>播放中</span>';
+        startDetailProgress();
+      } else {
+        btn.innerHTML = playIcon;
+        toggle.innerHTML = detailPlayerExpanded ? backIcon + '<span>收起</span>' : waveIcon + '<span>音频</span>';
+        stopDetailProgress();
+      }
+    }
+
+    function startDetailProgress() {
+      detailPlayInterval = setInterval(() => {
+        detailCurrentTime += 1;
+        if (detailCurrentTime >= detailDuration) {
+          detailCurrentTime = 0;
+          detailIsPlaying = false;
+          document.getElementById('detailPlayBtn').innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M8 5v14l11-7z"/></svg>';
+          stopDetailProgress();
+        }
+        updateDetailProgress();
+      }, 1000);
+    }
+
+    function stopDetailProgress() {
+      clearInterval(detailPlayInterval);
+    }
+
+    function updateDetailProgress() {
+      const percent = (detailCurrentTime / detailDuration) * 100;
+      document.getElementById('detailProgress').style.width = percent + '%';
+      document.getElementById('detailCurrent').textContent = formatDetailTime(detailCurrentTime);
+    }
+
+    function seekDetail(e) {
+      const bar = e.currentTarget;
+      const percent = e.offsetX / bar.offsetWidth;
+      detailCurrentTime = Math.floor(percent * detailDuration);
+      updateDetailProgress();
+    }
+
+    function formatDetailTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+  </script>
+
+  <!-- Download Progress Modal - Moved to end of body for highest z-index -->
+  <div class="progress-modal" id="progressModal" onclick="if(event.target === this) closeProgressModal()">
+    <div class="progress-modal-content">
+      <div class="progress-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2">
+          <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
+        </svg>
+      </div>
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">开始下载</h3>
+      <p id="progressFilename" style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">文件.pdf</p>
+      <div class="progress-bar-sm" style="margin-bottom: 12px;">
+        <div class="progress-fill-sm" id="progressBar" style="width: 0%"></div>
+      </div>
+      <p id="progressText" style="font-size: 12px; color: var(--text-muted);">准备下载...</p>
+    </div>
+  </div>
+</body>
+</html>
